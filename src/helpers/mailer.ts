@@ -46,6 +46,7 @@ export async function sendMail({
       } or copy and paste the link below in your browser. <br> ${process.env.DOMAIN}/verifyemail?token=${hashedToken} </P>`, // html body
     };
     const mailResponse = await transport.sendMail(mailOptions);
+    console.log("Message sent:");
     return mailResponse;
   } catch (error: any) {
     throw new Error("Error sending email", error);
