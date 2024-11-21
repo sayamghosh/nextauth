@@ -4,11 +4,10 @@ import { NextRequest,NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendMail } from "@/helpers/mailer";
 
-
 connectDB();
-
 export async function POST(request: NextRequest) {
   try {
+    
     const reqBody= await request.json()
     const {username,email,password}=reqBody;
     //validation
@@ -26,7 +25,8 @@ export async function POST(request: NextRequest) {
         password:hashedPassword
     })
     const savedUser=await newUser.save();
-    console.log(savedUser);
+    const {password:pass,...rest}=savedUser.toObject();
+    console.log(rest);
 
     // SEND VERIFICATION EMAIL
     await sendMail({email:email,emailType:'VERIFY',userId:savedUser._id});
